@@ -68,6 +68,12 @@ public class ClassOptionsMenu implements PlugIn, DialogListener {
         btnUpdatePicture.addActionListener(e -> actionPerformed(e));
         grapichInterface.add(btnUpdatePicture);
 
+        grapichInterface.addMessage("         ------------------");
+        grapichInterface.addMessage("Aula 5 :");
+        Button btnCreateHistogram = new Button("Criar Histograma...");
+        btnCreateHistogram.addActionListener(e -> actionPerformed(e));
+        grapichInterface.add(btnCreateHistogram);
+
         grapichInterface.addDialogListener(this);
         grapichInterface.showDialog();
 
@@ -99,6 +105,9 @@ public class ClassOptionsMenu implements PlugIn, DialogListener {
         }
         if(e.getActionCommand() == "Configurar imagem...") {
             IJ.run("Compile and Run...", "compile=./src/main/java/UpdatePicture.java");
+        }
+        if(e.getActionCommand() == "Criar Histograma...") {
+            IJ.run("Compile and Run...", "compile=./src/main/java/HistogramExpansionandEqualization.java");
         }
     }
 
