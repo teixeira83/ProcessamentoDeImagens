@@ -22,7 +22,7 @@ public class ReverseThreeGreyScaleToRGB implements PlugIn {
 
         int widthReversedRGBImage = redImage.getWidth();
         int heightReversedRGBImage = redImage.getHeight();
-        ImagePlus reversedRGBImage = IJ.createImage("RGB Revertid", "RGB",widthReversedRGBImage, heightReversedRGBImage, 3, 0,0);
+        ImagePlus reversedRGBImage = IJ.createImage("RGB Revertido", "RGB",widthReversedRGBImage, heightReversedRGBImage, 3, 0,0);
 
         int pixels[] = {0,0,0};
         int k = 0;

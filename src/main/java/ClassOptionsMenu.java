@@ -10,6 +10,7 @@ import java.awt.event.ActionEvent;
 
 public class ClassOptionsMenu implements PlugIn, DialogListener {
 
+    private String chosenOptionRadioButton = "";
 
     @Override
     public void run(String s) {
@@ -20,7 +21,12 @@ public class ClassOptionsMenu implements PlugIn, DialogListener {
 
 
         GenericDialog grapichInterface = new GenericDialog("Menu de Plugins: ");
-        grapichInterface.setSize(5000,5000);
+
+        /*
+        * Disable the OK button that is standard of generic dialog
+        * */
+        Button[] btns = grapichInterface.getButtons();
+        btns[0].setVisible(false);
 
         grapichInterface.addMessage("Plugins criados na aula de Processamento de Imagem :");
 
@@ -44,15 +50,29 @@ public class ClassOptionsMenu implements PlugIn, DialogListener {
 
         grapichInterface.addMessage("------------------------------");
         grapichInterface.addMessage("Aula 4 :");
+        grapichInterface.addMessage("Fundamentos - Converter de RGB para escala de cinza :");
+
+        String[] methods = {"Média dos Canais RGB", "Luminância Analógica","Luminância Digital"};
+        grapichInterface.addRadioButtonGroup("Escolha um dos três métodos", methods, 3, 1,"Média dos Canais RGB");
+
+        Button btnRGBToGreyScaleWithBookMethods = new Button("Transformar em Escala de Cinca!");
+        btnRGBToGreyScaleWithBookMethods.addActionListener(e -> {
+            String chosenOption = grapichInterface.getNextRadioButton();
+            radioButtonPerformed(chosenOption, grapichInterface.getNextBoolean());
+        });
+        grapichInterface.addCheckbox("Criar uma nova imagem?", true);
+        grapichInterface.add(btnRGBToGreyScaleWithBookMethods);
+
+        grapichInterface.addMessage("Para configurar os atributos da imagem :");
+        Button btnUpdatePicture = new Button("Configurar imagem...");
+        btnUpdatePicture.addActionListener(e -> actionPerformed(e));
+        grapichInterface.add(btnUpdatePicture);
+
         grapichInterface.addDialogListener(this);
         grapichInterface.showDialog();
 
         if (grapichInterface.wasCanceled()) {
-            IJ.showMessage("PlugIn cancelado!");
-        } else {
-            if (grapichInterface.wasOKed()) {
-                IJ.showMessage("Menu de Plugins ", "O menu foi encerrado corretamente");
-            }
+            IJ.showMessage("Menu de Plugins", "Menu encerrado com sucesso.");
         }
     }
 
@@ -77,8 +97,15 @@ public class ClassOptionsMenu implements PlugIn, DialogListener {
             System.out.println("Criando nova imagem RGB...");
             IJ.run("Compile and Run...", "compile=./src/main/java/ReverseThreeGreyScaleToRGB.java");
         }
+        if(e.getActionCommand() == "Configurar imagem...") {
+            IJ.run("Compile and Run...", "compile=./src/main/java/UpdatePicture.java");
+        }
     }
 
+    public void radioButtonPerformed(String chosenOption, Boolean createNewImage) {
+        RGBToGreyScaleWithBookMethods bookMethods = new RGBToGreyScaleWithBookMethods(chosenOption, createNewImage);
+        bookMethods.run("");
+    }
 
     @Override
     public boolean dialogItemChanged(GenericDialog genericDialog, AWTEvent awtEvent) {
