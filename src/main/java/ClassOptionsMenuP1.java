@@ -8,7 +8,7 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 
 
-public class ClassOptionsMenu implements PlugIn, DialogListener {
+public class ClassOptionsMenuP1 implements PlugIn, DialogListener {
 
     private String chosenOptionRadioButton = "";
 
