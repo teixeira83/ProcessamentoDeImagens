@@ -6,7 +6,7 @@ import ij.process.ImageProcessor;
 import java.util.ArrayList;
 import java.util.Collections;
 
-public class FiltroNLMediana implements PlugIn {
+public class FiltroNLOrdemMaxima implements PlugIn {
     @Override
     public void run(String s) {
         IJ.run("Boats");
@@ -24,7 +24,7 @@ public class FiltroNLMediana implements PlugIn {
                     }
                 }
                 Collections.sort(pixels);
-                int mediana = pixels.get(4);
+                int mediana = pixels.get(8);
                 newProcessor.putPixel(i,j, mediana);
             }
         }
