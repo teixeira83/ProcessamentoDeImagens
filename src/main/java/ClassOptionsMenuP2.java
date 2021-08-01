@@ -18,8 +18,7 @@ public class ClassOptionsMenuP2 implements PlugIn, DialogListener {
 
 
         GenericDialog grapichInterface = new GenericDialog("Menu de Plugins: ");
-
-        String[] plugins = {"Filtro passa-baixas de média", "Filtro passa-altas", "Filtro de Borda Norte"};
+        String[] plugins = {"Filtro passa-baixas de média", "Filtro passa-altas", "Filtro de Borda Norte", "Filtro de Mediana"};
         grapichInterface.addRadioButtonGroup("Escolha um filtro para aplicar :", plugins, 3, 1,"Filtro passa-baixas de média");
 
         grapichInterface.addDialogListener(this);
@@ -36,6 +35,9 @@ public class ClassOptionsMenuP2 implements PlugIn, DialogListener {
             }
             if(chosenOption == "Filtro de Borda Norte") {
                 IJ.run("Compile and Run...", "compile=./src/main/java/FiltroDeBorda.java");
+            }
+            if(chosenOption == "Filtro de Mediana") {
+                IJ.run("Compile and Run...", "compile=./src/main/java/FiltroNLMediana.java");
             }
         }
 
