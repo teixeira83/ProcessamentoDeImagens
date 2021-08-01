@@ -3,7 +3,7 @@ import ij.ImagePlus;
 import ij.plugin.PlugIn;
 import ij.process.ImageProcessor;
 
-public class FiltroDeMedia implements PlugIn {
+public class FiltroDeBorda implements PlugIn {
     @Override
     public void run(String s) {
         IJ.run("Boats");
@@ -12,19 +12,23 @@ public class FiltroDeMedia implements PlugIn {
         ImagePlus newImage = originalImage.duplicate();
         ImageProcessor newProcessor = newImage.getProcessor();
         int pixel;
-        float soma = 0;
-        double k = 0.11;
+        int soma = 0;
+        //estratégia borda norte
         for(int i = 1; i < newProcessor.getWidth(); i++) {
             for(int j = 1; j < newProcessor.getHeight(); j++) {
                 for(int x = -1; x < 2; x++) {
                     for(int y = 1; y > -2; y--) {
                         pixel = originalProcessor.getPixel(i + x, j + y);
-                        soma += (pixel * k);
+                        if((x == 0) && (y == 0)) {
+                            soma += (pixel * -2);
+                        } else if(y < 0) {
+                            soma += (pixel * -1);
+                        } else {
+                            soma += (pixel * 1);
+                        }
                     }
                 }
-                int newPixel = (int) soma;
-                if (newPixel < 0) { newPixel = 0; }
-                newProcessor.putPixel(i,j, newPixel);
+                newProcessor.putPixel(i,j, soma);
                 soma = 0;
             }
         }
