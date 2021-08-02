@@ -70,13 +70,15 @@ public class OperacoesMorfologicas implements PlugIn, DialogListener {
             aplicarErosao();
         }
         if(e.getActionCommand() == "Aplicar Operação Fechamento") {
-            System.out.println("Aplicar Fechamento");
+            aplicarDilatacao();
+            aplicarErosao();
         }
         if(e.getActionCommand() == "Aplicar Operação Abertura") {
-            System.out.println("Aplicar Abertura");
+            aplicarErosao();
+            aplicarDilatacao();
         }
         if(e.getActionCommand() == "Aplicar Borda(Outline)") {
-            System.out.println("Aplicar Borda");
+            aplicarBorda();
         }
     }
 
@@ -132,6 +134,52 @@ public class OperacoesMorfologicas implements PlugIn, DialogListener {
         }
         imagemAberta.close();
         imagemErodida.show();
+    }
+
+    public void aplicarBorda() {
+        ImagePlus imagemAberta = IJ.getImage();
+        ImageProcessor processadorAberto = IJ.getProcessor();
+        ImagePlus imagemErodida = IJ.createImage("Imagem Erodida", "black", processadorAberto.getWidth(), processadorAberto.getHeight(), 1);
+        ImageProcessor processadorErodido = imagemErodida.getProcessor();
+        int pixel;
+        int k;
+        for (int i = 1; i < processadorAberto.getWidth(); i++) {
+            for (int j = 1; j < processadorAberto.getHeight(); j++) {
+                k = 0;
+                for(int x = -1; x < 2; x++) {
+                    for(int y = 1; y > -2; y--) {
+                        if((x == 0) || (y == 0)) {
+                            pixel = processadorAberto.getPixel(i + x, j + y);
+                            if(pixel == 255) {
+                                k++;
+                            }
+                        }
+                    }
+                }
+                if(k == 5) {
+                    pixel = processadorAberto.getPixel(i,j);
+                    processadorErodido.putPixel(i, j, pixel);
+                }
+            }
+        }
+
+        ImagePlus imagemBorda = IJ.createImage("Imagem Borda", "black", processadorAberto.getWidth(), processadorAberto.getHeight(), 1);
+        ImageProcessor processadorBorda = imagemBorda.getProcessor();
+
+        for (int i = 1; i < processadorAberto.getWidth(); i++) {
+            for (int j = 1; j < processadorAberto.getHeight(); j++) {
+                int pixelImagemOriginal = processadorAberto.getPixel(i,j);
+                int pixelImagemErodida = processadorErodido.getPixel(i,j);
+
+                if( (pixelImagemOriginal == 255) && (pixelImagemErodida == 0)) {
+                    processadorBorda.putPixel(i,j, 255);
+                }
+            }
+        }
+
+        imagemAberta.close();
+        imagemErodida.close();
+        imagemBorda.show();
     }
 
     @Override
