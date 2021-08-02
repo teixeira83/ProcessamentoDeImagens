@@ -26,6 +26,11 @@ public class ClassOptionsMenuP2 implements PlugIn, DialogListener {
         grapichInterface.add(btnMorfologiaMatematica);
         grapichInterface.addMessage("-----------------------");
 
+        Button btnSepararROIS = new Button("Separar ROIS em Imanges");
+        btnSepararROIS.addActionListener(e -> actionPerformed(e));
+        grapichInterface.add(btnSepararROIS);
+        grapichInterface.addMessage("-----------------------");
+
         grapichInterface.addDialogListener(this);
         grapichInterface.showDialog();
 
@@ -60,6 +65,9 @@ public class ClassOptionsMenuP2 implements PlugIn, DialogListener {
     public void actionPerformed(ActionEvent e) {
         if(e.getActionCommand() == "Morfologia Matematica") {
             IJ.run("Compile and Run...", "compile=./src/main/java/OperacoesMorfologicas.java");
+        }
+        if(e.getActionCommand() == "Separar ROIS em Imanges") {
+            IJ.run("Compile and Run...", "compile=./src/main/java/SepararROIS.java");
         }
     }
 

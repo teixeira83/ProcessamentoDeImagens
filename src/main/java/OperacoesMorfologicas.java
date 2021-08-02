@@ -10,12 +10,9 @@ import java.awt.event.ActionEvent;
 
 public class OperacoesMorfologicas implements PlugIn, DialogListener {
 
-        ImagePlus imagemOriginal;
-        ImageProcessor processadorOriginal;
     @Override
     public void run(String s) {
         IJ.open("/home/z3r0/Área de Trabalho/celulasCancer.jpg");
-        this.imagemOriginal = IJ.getImage();
         GenericDialog grapichInterface = new GenericDialog("Menu de Operações MM: ");
 
         Button btnTransformarEmBinary = new Button("Transformar img em Binary");
